@@ -1,0 +1,11 @@
+{
+  "status": "example_unvalidated",
+  "camera_indices": [0, 1],
+  "max_recaptures": 3,
+  "shape_score_threshold": 0.9,
+  "color_score_threshold": 0.9,
+  "allow_single_camera": false,
+  "categories": [],
+  "category_to_box": {},
+  "serial_port": null
+}
