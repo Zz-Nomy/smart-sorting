@@ -19,6 +19,13 @@ def read(path):
     if im is None:raise ValueError('无法读取图片：'+str(path))
     return im
 
+def read_view_pair(top,side):
+    # Exact duplicate captures contain no independent second view.
+    a,b=read(top),read(side)
+    if a.shape==b.shape and np.array_equal(a,b):
+        raise ValueError('顶视与侧视是同一幅图像，请提供两个不同视图')
+    return a,b
+
 def locate(im):
     hsv=cv2.cvtColor(im,cv2.COLOR_BGR2HSV)
     red=cv2.inRange(hsv,(0,80,25),(15,255,255))|cv2.inRange(hsv,(160,80,25),(179,255,255))
@@ -69,7 +76,8 @@ class Recognizer:
         self.weight=pack['weight'].to(self.device);self.bias=pack['bias'].to(self.device)
     @torch.inference_mode()
     def predict(self,top,side):
-        a,ma=preprocess(read(top));b,mb=preprocess(read(side))
+        top_image,side_image=read_view_pair(top,side)
+        a,ma=preprocess(top_image);b,mb=preprocess(side_image)
         feat=self.net(torch.stack([a,b]).to(self.device)).reshape(1,-1)
         logits=((feat-self.mean)/self.std)@self.weight.T+self.bias
         p=torch.softmax(logits,dim=1)[0].cpu().tolist();order=sorted(range(len(self.shapes)),key=lambda i:p[i],reverse=True)
@@ -81,7 +89,7 @@ class Recognizer:
         if score<.75 or margin<.3:issues.append('形状分数不足，建议重新拍摄或人工复核')
         color=ma['color'] if ma['color']==mb['color'] else 'unknown'
         shape=self.shapes[idx]
-        return dict(status='needs_review' if issues else 'candidate',class_name=color+'_'+shape,label=ZH[color]+ZH.get(shape,shape),shape=shape,color=color,score=round(score,4),score_note='未校准的闭集模型分数，并非正确概率；高分也不能排除未知类别',alternatives=[dict(shape=self.shapes[i],name=ZH.get(self.shapes[i],self.shapes[i]),score=round(p[i],4)) for i in order],issues=issues,top=ma,side=mb)
+        return dict(status='needs_review' if issues else 'candidate',class_name=color+'_'+shape,label=ZH[color]+ZH.get(shape,shape),shape=shape,color=color,score=round(score,4),score_note='未校准的闭集模型分数，并非正确概率；高分也不能排除未知类别',pairing_status='provided_pair_identity_unverified',automatic_sorting_allowed=False,warnings=['候选分类以输入属于同一物体为前提；当前不校验实例对应，不能凭此自动执行分拣'],alternatives=[dict(shape=self.shapes[i],name=ZH.get(self.shapes[i],self.shapes[i]),score=round(p[i],4)) for i in order],issues=issues,top=ma,side=mb)
 
 if __name__=='__main__':
     import argparse

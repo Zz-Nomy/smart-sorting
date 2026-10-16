@@ -66,3 +66,9 @@ DATASET 在本机是 `C:/27工创/output/视觉识别素材库_v1`；CACHE_DIR �
 `training/package_dualview.py` 可将当前源码、已有可信权重与成对样例打成本地 ZIP，保留摘要校验和运行说明。它不把原图或模型加入 Git，不含 Python 解释器或全套依赖。已有包不会覆盖，须指定新文件名。
 
 已从工作区以外临时目录解压，在现有兼容环境中 CPU 运行八对旧视频样例并检查文件 SHA256，八对均正确，改动文件能被校验器检测。见 `reports/package_validation.json`；测试使用已安装 Python/PyTorch/OpenCV 等及隔离 NumPy 1.26.4，不代表在全新机器上验证过一键安装，也不是独立样件评估或 GUI 交互验收。
+
+## 边界检查与配对失败证据
+
+`training/check_boundaries.py` 在既有样例上生成可追溯派生检查，不能当作新实拍测试。空场、黄色重着色、触边、明显多目标、局部遮挡、缺视图及颜色冲突等51项受控检查中，最初7项失败均为同图重复输入；增加按解码像素检查后51项满足各自预期（拒绝或正确，不是51次全部成功识别）。原图不修改。
+
+另将同色不同形状的顶/侧视故意错配，24对中22对仍给出候选。这一问题未解决，不能宣称自动实例对应。`candidate`只表示在输入对应正确这一前提下的分类候选；结果明确返回 `pairing_status=provided_pair_identity_unverified`、`automatic_sorting_allowed=false` 及警告，不能直接发机械指令。重复图像拦截只能排除完全相同像素，不能识别同色不同实物或重复物体。见 reports/boundary_checks.json。

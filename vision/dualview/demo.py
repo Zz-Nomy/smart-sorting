@@ -9,6 +9,7 @@ def main():
     root=tk.Tk();root.title('双视图物体识别 · 演示原型');root.geometry('1000x900')
     ttk.Label(root,text='选择同一物体的顶视图与侧视图',font=('Microsoft YaHei',18)).pack(pady=12)
     ttk.Label(root,text='支持：红/蓝 × 立方体、圆柱、圆锥、多棱柱；高分不代表能够识别未知类别').pack()
+    ttk.Label(root,text='两图须先确认属于同一实物；当前不验证实例配对，候选结果不能直接驱动分拣').pack()
     frame=ttk.Frame(root);frame.pack(fill='x',padx=20,pady=15)
     paths={};photos={};labels={}
     def choose(view):
@@ -49,6 +50,7 @@ def main():
                 out=model.predict(current['top'],current['side']);text=f'候选分类：{out["label"]}\n模型分数：{out["score"]:.1%}（未校准，不是正确概率）\n状态：'+('需复核' if out['issues'] else '已输出候选结果')+'\n'
                 text+='\n形状排序：\n'+''.join(f'  {v["name"]}  {v["score"]:.1%}\n' for v in out['alternatives'])
                 if out['issues']:text+='\n提示：'+'；'.join(out['issues'])
+                text+='\n配对状态：未自动验证；本结果不能直接作为机械执行指令。'
                 (ROOT/'last_result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding='utf-8')
             except Exception as e:out=None;text='识别失败：'+str(e)
             def done():

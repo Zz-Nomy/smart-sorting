@@ -1,0 +1,56 @@
+{
+  "before": {
+    "scope": "controlled derived fixtures and intentionally invalid pairs, NOT independent real captures",
+    "total_checks": 51,
+    "checks_met": 44,
+    "failures": [
+      "blue_cube_identical_views",
+      "blue_cylinder_identical_views",
+      "blue_prism_identical_views",
+      "red_cone_identical_views",
+      "red_cube_identical_views",
+      "red_cylinder_identical_views",
+      "red_prism_identical_views"
+    ],
+    "note": "Passing nonaccept means refusal/error as expected, not correct naming. Occlusion passes if correct or nonaccepted. Counts are engineering checks, not an identification success rate."
+  },
+  "after": {
+    "scope": "controlled derived fixtures and intentionally invalid pairs, NOT independent real captures",
+    "total_checks": 51,
+    "checks_met": 51,
+    "failures": [],
+    "note": "Passing nonaccept means refusal/error as expected, not correct naming. Occlusion passes if correct or nonaccepted. Counts are engineering checks, not an identification success rate."
+  },
+  "mismatched_pair_probe": {
+    "scope": "controlled derived fixtures and intentionally invalid pairs, NOT independent real captures",
+    "total_checks": 24,
+    "checks_met": 2,
+    "failures": [
+      "blue_cone__blue_cube_side",
+      "blue_cone__blue_cylinder_side",
+      "blue_cone__blue_prism_side",
+      "blue_cube__blue_cylinder_side",
+      "blue_cube__blue_prism_side",
+      "blue_cylinder__blue_cone_side",
+      "blue_cylinder__blue_cube_side",
+      "blue_cylinder__blue_prism_side",
+      "blue_prism__blue_cone_side",
+      "blue_prism__blue_cube_side",
+      "blue_prism__blue_cylinder_side",
+      "red_cone__red_cube_side",
+      "red_cone__red_cylinder_side",
+      "red_cone__red_prism_side",
+      "red_cube__red_cylinder_side",
+      "red_cube__red_prism_side",
+      "red_cylinder__red_cone_side",
+      "red_cylinder__red_cube_side",
+      "red_cylinder__red_prism_side",
+      "red_prism__red_cone_side",
+      "red_prism__red_cube_side",
+      "red_prism__red_cylinder_side"
+    ],
+    "note": "Passing nonaccept means refusal/error as expected, not correct naming. Occlusion passes if correct or nonaccepted. Counts are engineering checks, not an identification success rate."
+  },
+  "unresolved": "22 of 24 intentionally mismatched same-color/different-shape pairs still produced candidates. Identity verification is NOT implemented; candidate output explicitly forbids automatic sorting.",
+  "unit_tests_passed": 25
+}

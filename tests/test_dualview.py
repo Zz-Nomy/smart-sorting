@@ -1,9 +1,17 @@
 import sys,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'vision'/'dualview'))
-from vision_model import np,cv2,locate,accepted_match
+from vision_model import np,cv2,locate,accepted_match,read_view_pair
+from unittest.mock import patch
 
 class DualViewTests(unittest.TestCase):
+    def test_identical_pixels_with_different_paths_do_not_count_as_two_views(self):
+        image=np.zeros((24,24,3),np.uint8)
+        with patch('vision_model.read',side_effect=[image,image.copy()]),self.assertRaisesRegex(ValueError,'同一幅'):read_view_pair('a.jpg','renamed.jpg')
+    def test_distinct_view_pixels_are_preserved(self):
+        a=np.zeros((24,24,3),np.uint8);b=np.ones_like(a)
+        with patch('vision_model.read',side_effect=[a,b]):pair=read_view_pair('a.jpg','b.jpg')
+        self.assertIs(pair[0],a);self.assertIs(pair[1],b)
     def test_joint_success_requires_color_and_shape(self):
         p=dict(status='candidate',class_name='red_cube')
         self.assertTrue(accepted_match(p,'red_cube'))

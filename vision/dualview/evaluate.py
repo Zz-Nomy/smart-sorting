@@ -101,6 +101,7 @@ def evaluate(csv_path,checkpoint=None,device='cpu',warmup=2,scope='external_unve
     checkpoint_path=Path(checkpoint or ROOT/'model.pt')
     return dict(label='single_target_labelled_pair_evaluation_v2',scope=scope,
         scope_note='Pairing/physical identity and independent capture are NOT automatically verified; no multi-object detection metric is implied',
+        pairing_note='Success rates are classification conditional on a correctly supplied pair, NOT measured cross-view identity-matching success',
         success_definition='one row = one true target; accepted AND correct color AND correct shape; missing/review/errors remain in denominator',
         **stats,groups=groups,input_manifest_sha256=hashlib.sha256(Path(csv_path).read_bytes()).hexdigest(),
         model_sha256=hashlib.sha256(checkpoint_path.read_bytes()).hexdigest() if checkpoint_path.is_file() else None,
