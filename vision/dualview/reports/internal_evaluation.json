@@ -1,0 +1,40 @@
+{
+  "label": "labelled_pair_evaluation",
+  "scope": "same-video temporal holdout; NOT independent test",
+  "success_definition": "accepted AND correct color AND correct shape; review/errors count as unsuccessful",
+  "total": 377,
+  "correct": 377,
+  "success_rate": 1.0,
+  "review": 0,
+  "errors": 0,
+  "review_or_error_rate": 0.0,
+  "mean_latency_ms": 36.44,
+  "p95_latency_ms": 42.69,
+  "confusion": {
+    "blue_cone": {
+      "blue_cone": 27
+    },
+    "blue_cube": {
+      "blue_cube": 50
+    },
+    "blue_cylinder": {
+      "blue_cylinder": 50
+    },
+    "blue_prism": {
+      "blue_prism": 50
+    },
+    "red_cone": {
+      "red_cone": 50
+    },
+    "red_cube": {
+      "red_cube": 50
+    },
+    "red_cylinder": {
+      "red_cylinder": 50
+    },
+    "red_prism": {
+      "red_prism": 50
+    }
+  },
+  "model_sha256": "93915e90123e791027ac3b5b29140eb5c364900e217de7bce0793e5d4e157e4e"
+}

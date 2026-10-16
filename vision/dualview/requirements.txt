@@ -1,0 +1,6 @@
+# Recommended reproducible Python 3.10 environment. CPU is sufficient for inference.
+numpy==1.26.4
+torch==1.13.1
+torchvision==0.14.1
+opencv-python>=4.8,<4.12
+Pillow>=9.5,<12

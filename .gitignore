@@ -14,3 +14,10 @@ logs/
 *.onnx
 .idea/
 .vscode/
+vision/dualview/cache/
+vision/dualview/last_result.json
+vision/dualview/manual_evaluation.csv
+vision/dualview/evaluation.json
+vision/dualview/examples/
+vision/dualview/*manifest.jsonl
+vision/dualview/validation_pairs.json
