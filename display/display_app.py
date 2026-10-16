@@ -36,11 +36,12 @@ class DisplayState:
         """Apply one controller event and return whether it was accepted."""
         if payload.get("event") != "DISPLAY_COMMIT":
             return False
-        item_id = str(payload.get("item_id", "")).strip()
-        if not item_id:
+        item_id = payload.get("item_id")
+        if not isinstance(item_id, str) or not item_id.strip():
             self.status, self.status_color = "数据错误：缺少 item_id", "red"
             self.last_update = time.time()
             return False
+        item_id = item_id.strip()
         if item_id in self.accepted_ids:
             self.status, self.status_color = "重复消息，未重复计数", "orange"
             self.last_update = time.time()
@@ -50,20 +51,31 @@ class DisplayState:
             self.last_update = time.time()
             return False
 
-        key = str(payload.get("key", "")).strip()
-        item = dict(self.catalog.get(key, {}))
+        # A caller's total is a consistency check, never an implicit resync.
+        expected_count = self.success_count + 1
+        if "count" in payload and (type(payload["count"]) is not int or payload["count"] != expected_count):
+            self.status, self.status_color = "累计数量不一致，未计数", "red"
+            self.last_update = time.time()
+            return False
+        key = payload.get("key")
+        if not isinstance(key, str) or key.strip() not in self.catalog:
+            self.status, self.status_color = "未知物料类别，未计数", "red"
+            self.last_update = time.time()
+            return False
+        item = dict(self.catalog[key.strip()])
         item.update({k: v for k, v in payload.items() if v not in (None, "")})
-        item.setdefault("name", "未命名物料")
-        item.setdefault("category", "未分类")
-        item.setdefault("box_id", "-")
+        item["item_id"] = item_id
+        if (any(not isinstance(item.get(k), str) or not item[k].strip() for k in ("name", "category", "image"))
+                or type(item.get("box_id")) is not int or not 1 <= item["box_id"] <= 6
+                or resolve_image(item) is None):
+            self.status, self.status_color = "显示资料不完整，未计数", "red"
+            self.last_update = time.time()
+            return False
         self.current = item
-        controller_count = payload.get("count")
-        if isinstance(controller_count, int) and controller_count >= self.success_count + 1:
-            self.success_count = controller_count
-        else:
-            self.success_count += 1
+        self.success_count = expected_count
+        self.current["sequence"] = expected_count
         self.accepted_ids.add(item_id)
-        self.status, self.status_color = "分拣成功，已确认入盒", "green"
+        self.status, self.status_color = "控制器确认入盒，已计数", "green"
         self.last_update = time.time()
         return True
 
@@ -224,8 +236,8 @@ def run_ui(state: DisplayState, args: argparse.Namespace) -> None:
         draw_text(screen, fonts["medium"], state.current.get("category", "—"), (430, 183), (25, 93, 160))
         draw_text(screen, fonts["tiny"], "目标料盒", (372, 237), (100, 112, 130))
         draw_text(screen, fonts["medium"], f"#{state.current.get('box_id', '—')}", (465, 230), (25, 93, 160))
-        draw_text(screen, fonts["tiny"], "物料编号", (570, 237), (100, 112, 130))
-        draw_text(screen, fonts["small"], state.current.get("item_id", "—"), (650, 234), (43, 54, 70))
+        draw_text(screen, fonts["tiny"], "本件序号", (570, 237), (100, 112, 130))
+        draw_text(screen, fonts["small"], state.current.get("sequence", "—"), (650, 234), (43, 54, 70))
 
         status_colors = {"green": (36, 126, 79), "orange": (178, 105, 16), "red": (176, 54, 54), "blue": (33, 86, 145)}
         color = status_colors.get(state.status_color, status_colors["blue"])

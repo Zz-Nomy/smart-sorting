@@ -2,21 +2,21 @@
   {
     "key": "red_cylinder",
     "name": "红色圆柱",
-    "category": "按颜色：红色",
+    "category": "红色＋圆柱",
     "box_id": 1,
     "image": "assets/red_cylinder.ppm"
   },
   {
     "key": "blue_cube",
-    "name": "蓝色方块",
-    "category": "按颜色：蓝色",
+    "name": "蓝色立方体",
+    "category": "蓝色＋立方体",
     "box_id": 2,
     "image": "assets/blue_cube.ppm"
   },
   {
     "key": "yellow_triangle",
     "name": "黄色三角件",
-    "category": "按颜色：黄色",
+    "category": "黄色＋三角件",
     "box_id": 3,
     "image": "assets/yellow_triangle.ppm"
   }
