@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import hashlib
 ROOT=Path(__file__).resolve().parent
 for ancestor in ROOT.parents:
     runtime=ancestor/'work'/'vision_runtime'
@@ -63,7 +64,9 @@ def preprocess(im,box=None):
 class Recognizer:
     def __init__(self,checkpoint=None,device='cpu'):
         self.device=torch.device(device)
-        pack=torch.load(checkpoint or ROOT/'model.pt',map_location='cpu')
+        self.checkpoint_path=Path(checkpoint or ROOT/'model.pt').resolve()
+        self.model_sha256=hashlib.sha256(self.checkpoint_path.read_bytes()).hexdigest()
+        pack=torch.load(self.checkpoint_path,map_location='cpu')
         self.shapes=validate_shapes(pack.get('shapes',SHAPES))
         if pack['weight'].shape!=(len(self.shapes),1152) or pack['bias'].shape!=(len(self.shapes),):
             raise ValueError('Checkpoint labels do not match classifier dimensions')

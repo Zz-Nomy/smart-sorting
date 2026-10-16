@@ -2,7 +2,7 @@
 from pathlib import Path
 import argparse,csv,hashlib,json,shutil,subprocess,tempfile,zipfile
 
-FILES=['vision_model.py','dataset_contract.py','evaluate.py','demo.py','train.py','requirements.txt']
+FILES=['vision_model.py','dataset_contract.py','manual_session.py','evaluate.py','demo.py','train.py','requirements.txt']
 
 def build(checkpoint,examples,output):
     checkpoint=Path(checkpoint).resolve();examples=Path(examples).resolve();output=Path(output).resolve()

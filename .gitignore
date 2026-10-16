@@ -17,6 +17,7 @@ logs/
 vision/dualview/cache/
 vision/dualview/last_result.json
 vision/dualview/manual_evaluation.csv
+vision/dualview/manual_evaluation.jsonl
 vision/dualview/evaluation.json
 vision/dualview/examples/
 vision/dualview/*manifest.jsonl
