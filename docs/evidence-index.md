@@ -12,7 +12,7 @@
 | 24对轻微扰动 | vision/dualview/reports/perturbation_check.json | 八对示例的派生变化检查 | 新增24个独立物理样本 |
 | 边界与失败 | vision/dualview/reports/boundary_checks.json | 51项受控检查修复后满足各自预期；另24对错配中22对仍给候选 | 自动实例配对或未知形状可靠拒识 |
 | 人工审计回调 | vision/dualview/reports/gui_callback_check.json | 实际模型的隐藏窗口Tk状态/记录/更正检查 | 整窗人工视觉验收、独立实物实验 |
-| v3解压复现 | vision/dualview/reports/package_validation.json | 工作区外解压CPU八对旧样例正确；29固定文件校验、篡改检测 | 新电脑依赖重装、免安装EXE、独立样本准确率 |
+| v3解压复现 | vision/dualview/reports/package_validation_v3.json | 工作区外解压CPU八对旧样例正确；29固定文件校验、篡改检测 | 新电脑依赖重装、免安装EXE、独立样本准确率 |
 | 数据契约 | vision/dualview/reports/data_contract_checks.json；dataset_contract.py | 形式上防实物/批次/父图/路径跨区，test不参与训练提特征 | 元数据真实性、当前已获新实拍 |
 | 赛项约束 | docs/rules-interface-audit.md | 对已收到两份原PDF的具体页码核对 | 未提供的校赛完整更新已核实 |
 
