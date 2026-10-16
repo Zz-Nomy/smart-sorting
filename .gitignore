@@ -21,3 +21,4 @@ vision/dualview/evaluation.json
 vision/dualview/examples/
 vision/dualview/*manifest.jsonl
 vision/dualview/validation_pairs.json
+vision/dualview/training_pairs.json

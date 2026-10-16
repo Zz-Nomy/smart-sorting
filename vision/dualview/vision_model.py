@@ -6,6 +6,7 @@ for ancestor in ROOT.parents:
     if runtime.is_dir():sys.path.insert(0,str(runtime));break
 import numpy as np,cv2,torch,json
 from torchvision.models import mobilenet_v3_small
+from dataset_contract import validate_shapes
 torch.set_num_threads(4)
 SHAPES=['cube','cylinder','cone','prism']
 ZH={'cube':'立方体','cylinder':'圆柱','cone':'圆锥','prism':'多棱柱','red':'红色','blue':'蓝色','unknown':'未知颜色'}
@@ -56,6 +57,13 @@ class Recognizer:
     def __init__(self,checkpoint=None,device='cpu'):
         self.device=torch.device(device)
         pack=torch.load(checkpoint or ROOT/'model.pt',map_location='cpu')
+        self.shapes=validate_shapes(pack.get('shapes',SHAPES))
+        if pack['weight'].shape!=(len(self.shapes),1152) or pack['bias'].shape!=(len(self.shapes),):
+            raise ValueError('Checkpoint labels do not match classifier dimensions')
+        if pack['mean'].shape!=(1152,) or pack['std'].shape!=(1152,) or not torch.all(pack['std']>0):
+            raise ValueError('Checkpoint feature normalization is invalid')
+        if any(not torch.isfinite(pack[key]).all() for key in ['weight','bias','mean','std']):
+            raise ValueError('Checkpoint contains non-finite classifier values')
         self.net=mobilenet_v3_small(weights=None);self.net.classifier=torch.nn.Identity();self.net.load_state_dict(pack['backbone']);self.net.eval().to(self.device)
         self.mean=pack['mean'].to(self.device);self.std=pack['std'].to(self.device)
         self.weight=pack['weight'].to(self.device);self.bias=pack['bias'].to(self.device)
@@ -64,7 +72,7 @@ class Recognizer:
         a,ma=preprocess(read(top));b,mb=preprocess(read(side))
         feat=self.net(torch.stack([a,b]).to(self.device)).reshape(1,-1)
         logits=((feat-self.mean)/self.std)@self.weight.T+self.bias
-        p=torch.softmax(logits,dim=1)[0].cpu().tolist();order=sorted(range(4),key=lambda i:p[i],reverse=True)
+        p=torch.softmax(logits,dim=1)[0].cpu().tolist();order=sorted(range(len(self.shapes)),key=lambda i:p[i],reverse=True)
         idx=order[0];score=p[idx];margin=score-p[order[1]]
         issues=[]
         if ma['color']!=mb['color']:issues.append('两视图颜色不一致，请确认同一物体')
@@ -72,7 +80,8 @@ class Recognizer:
         if ma['touches_edge'] or mb['touches_edge']:issues.append('目标触及图像边缘')
         if score<.75 or margin<.3:issues.append('形状分数不足，建议重新拍摄或人工复核')
         color=ma['color'] if ma['color']==mb['color'] else 'unknown'
-        return dict(status='needs_review' if issues else 'candidate',class_name=color+'_'+SHAPES[idx],label=ZH[color]+ZH[SHAPES[idx]],shape=SHAPES[idx],color=color,score=round(score,4),score_note='未校准的闭集模型分数，并非正确概率；高分也不能排除未知类别',alternatives=[dict(shape=SHAPES[i],name=ZH[SHAPES[i]],score=round(p[i],4)) for i in order],issues=issues,top=ma,side=mb)
+        shape=self.shapes[idx]
+        return dict(status='needs_review' if issues else 'candidate',class_name=color+'_'+shape,label=ZH[color]+ZH.get(shape,shape),shape=shape,color=color,score=round(score,4),score_note='未校准的闭集模型分数，并非正确概率；高分也不能排除未知类别',alternatives=[dict(shape=self.shapes[i],name=ZH.get(self.shapes[i],self.shapes[i]),score=round(p[i],4)) for i in order],issues=issues,top=ma,side=mb)
 
 if __name__=='__main__':
     import argparse

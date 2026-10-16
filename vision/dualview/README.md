@@ -18,16 +18,19 @@
 从仓库根目录运行：
 
 ```powershell
-python training/train_dualview.py --data DATASET --output vision/dualview --cache CACHE_DIR
+python training/train_dualview.py --pairs CAPTURE_PAIRS.csv --shapes training/shapes.example.json --output runs/paired_run --cache CACHE_DIR
+python training/train_dualview.py --data DATASET --legacy-temporal --output runs/legacy_check --cache CACHE_DIR
 python vision/dualview/demo.py
 python vision/dualview/vision_model.py --top TOP.jpg --side SIDE.jpg --checkpoint vision/dualview/model.pt --json result.json
 python vision/dualview/evaluate.py --csv YOUR_PAIRS.csv --checkpoint vision/dualview/model.pt --output evaluation.json
 python -m unittest discover -s tests -p test_dualview.py -v
 ```
 
-DATASET 在本机是 `C:/27工创/output/视觉识别素材库_v1`；CACHE_DIR 可用 `C:/27工创/work/torch_cache`。启动演示.cmd 可直接打开界面。推理默认 CPU，训练自动使用 CUDA（如果可用），首次训练下载官方预训练权重。模型与原图按仓库约定不提交 Git；本机已保留可运行权重，其他电脑需先训练。只加载可信来源的模型文件。
+DATASET 在本机是 `C:/27工创/output/视觉识别素材库_v1`；CACHE_DIR 可用 `C:/27工创/work/torch_cache`。正式采集 CSV 字段见 `training/capture_pairs.example.csv`，两类形状示例配置见 `training/shapes.example.json`；使用八类现有物料时可省略 `--shapes`，默认四种形状。示例清单是字段模板，不是可用照片数据。推理使用新模型需传 `--checkpoint runs/paired_run/model.pt`。启动演示.cmd 默认使用模块旁的本地模型。首次训练下载官方预训练权重。权重和原图按仓库约定不提交 Git；只加载可信来源文件。
 
-数据需包含 originals_manifest.jsonl、source_videos.json 及对应 originals 图片。训练器针对当前八类结构；新增形状或颜色需要同步扩展标签、定位和分类头。图片对 CSV 示例见 training/pairs.example.csv，路径相对于 CSV 所在目录，也支持绝对路径。真值包含 color 与 shape。
+旧素材路径需包含 originals_manifest.jsonl、source_videos.json 及对应 originals 图片，且必须显式使用 `--legacy-temporal`，输出强制标为相关内部检查。正式采集使用 `--pairs`：清单须含 pair_id、physical_object_id、session_id、split、top、side、color、shape、source_kind、top_parent_id、side_parent_id。物理实物、批次、原图父 ID 和图片路径分别检查跨区，不只检查实物与批次的组合；缺图、标签冲突、重复图对会报错，验证/测试只接受 source_kind=real。元数据检查不能证明 ID 填写真实或实物确实独立。
+
+训练只提取 train/val 图像特征，不读取封存 test 图片；test 仅做清单完整性与分区检查，最终评估另执行。`--shapes` 可配置有样本的新形状，顺序保存到权重，推理从权重读取并校验头维度；不自动获得未知形状能力，颜色定位仍只支持红蓝。输出模型已存在时默认拒绝覆盖，需换目录或显式 `--overwrite`。训练记录种子、清单摘要、源码摘要、Git 提交与脏状态、模型摘要。评估 CSV 示例仍见 training/pairs.example.csv，颜色与形状真值均必需。
 
 ## 当前评估的边界
 

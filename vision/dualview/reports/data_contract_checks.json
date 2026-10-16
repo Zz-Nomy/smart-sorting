@@ -1,0 +1,16 @@
+{
+  "checkpoint_label_reordering": "PASS",
+  "head_label_mismatch_rejected": "PASS",
+  "legacy_checkpoint_load": "PASS",
+  "new_training_checkpoint_inference": "PASS",
+  "note": "Schema/inference smoke checks on existing samples, not independent accuracy evaluation",
+  "unit_tests_passed": 17,
+  "unit_test_groups": {
+    "vision_input_and_joint_success": 4,
+    "dataset_contract": 11,
+    "training_seal_control_flow": 2
+  },
+  "legacy_training_reproduced": true,
+  "sealed_test_fixture": "mock images and mock backbone; control-flow evidence only",
+  "formal_independent_real_capture_training": "NOT RUN: new paired physical-instance data not supplied"
+}

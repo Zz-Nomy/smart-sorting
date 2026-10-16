@@ -11,7 +11,7 @@ def evaluate(csv_path,checkpoint=None,device='cpu'):
     if len(set(keys))!=len(keys):raise ValueError('Duplicate image pairs would inflate statistics; deduplicate CSV first')
     model=Recognizer(checkpoint,device);results=[];conf={};correct=0;review=0;errors=0;latencies=[]
     for row in rows:
-        if row['color'] not in ['red','blue'] or row['shape'] not in SHAPES:raise ValueError('Unsupported truth class: '+str(row))
+        if row['color'] not in ['red','blue'] or row['shape'] not in model.shapes:raise ValueError('Unsupported truth class: '+str(row))
         true=row['color']+'_'+row['shape'];start=time.perf_counter();out=None;error=None
         try:out=model.predict(path.parent/row['top'],path.parent/row['side'])
         except (ValueError,OSError) as e:error=str(e)

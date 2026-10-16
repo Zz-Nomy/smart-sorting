@@ -25,7 +25,7 @@ def main():
     controls=ttk.Frame(root);controls.pack(pady=4)
     ttk.Label(controls,text='真值（人工确认后记录）：').grid(row=0,column=0)
     truth_color=ttk.Combobox(controls,values=['red','blue'],width=8,state='readonly');truth_color.set('red');truth_color.grid(row=0,column=1)
-    truth_shape=ttk.Combobox(controls,values=SHAPES,width=12,state='readonly');truth_shape.set('cube');truth_shape.grid(row=0,column=2)
+    truth_shape=ttk.Combobox(controls,values=model.shapes,width=12,state='readonly');truth_shape.set(model.shapes[0]);truth_shape.grid(row=0,column=2)
     accuracy=tk.StringVar(value='本次人工核验：0 对；成功率尚无数据（需真值）')
     ttk.Label(root,textvariable=accuracy).pack()
     def record():
