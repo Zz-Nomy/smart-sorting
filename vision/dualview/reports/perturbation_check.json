@@ -1,0 +1,51 @@
+{
+  "label": "labelled_pair_evaluation",
+  "scope": "synthetic perturbations of 8 same-video held-out example pairs; NOT independent test",
+  "success_definition": "accepted AND correct color AND correct shape; review/errors count as unsuccessful",
+  "total": 24,
+  "correct": 24,
+  "success_rate": 1.0,
+  "review": 0,
+  "errors": 0,
+  "review_or_error_rate": 0.0,
+  "mean_latency_ms": 131.26,
+  "p95_latency_ms": 77.7,
+  "confusion": {
+    "blue_cone": {
+      "blue_cone": 3
+    },
+    "blue_cube": {
+      "blue_cube": 3
+    },
+    "blue_cylinder": {
+      "blue_cylinder": 3
+    },
+    "blue_prism": {
+      "blue_prism": 3
+    },
+    "red_cone": {
+      "red_cone": 3
+    },
+    "red_cube": {
+      "red_cube": 3
+    },
+    "red_cylinder": {
+      "red_cylinder": 3
+    },
+    "red_prism": {
+      "red_prism": 3
+    }
+  },
+  "model_sha256": "93915e90123e791027ac3b5b29140eb5c364900e217de7bce0793e5d4e157e4e",
+  "method": {
+    "seed": 123,
+    "corner_offsets_fraction": 0.035,
+    "brightness_gains": [
+      0.9,
+      1.0,
+      1.1
+    ],
+    "base_pairs": 8,
+    "changes": "perspective and brightness together; not independently captured"
+  }
+}

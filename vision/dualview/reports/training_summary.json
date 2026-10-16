@@ -1,0 +1,47 @@
+{
+  "model": "MobileNetV3-small + dual-view linear head",
+  "device": "cuda",
+  "training_original_frames": 495,
+  "validation_original_frames": 214,
+  "gap_frames": 123,
+  "synthetic_pair_combinations_train": 1600,
+  "synthetic_pair_combinations_val": 400,
+  "unique_val_pairs": 377,
+  "train_shape_accuracy": 1.0,
+  "temporal_holdout_shape_accuracy": 1.0,
+  "confusion_matrix": [
+    [
+      100,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      100,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      100,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      100
+    ]
+  ],
+  "shape_order": [
+    "cube",
+    "cylinder",
+    "cone",
+    "prism"
+  ],
+  "seconds": 17.24,
+  "model_bytes": 3856089,
+  "warning": "Same objects/backgrounds/videos occur in training and temporal validation. Paired frames are combined by class, not synchronized. These are correlated internal checks, NOT independent-test or competition accuracy. Unknown classes are not validated."
+}

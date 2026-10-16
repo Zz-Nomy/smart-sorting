@@ -1,0 +1,6 @@
+pair_id,physical_object_id,session_id,split,top,side,color,shape,source_kind,top_parent_id,side_parent_id
+capture01,red_cube_A,train_day1,train,images/a_top.jpg,images/a_side.jpg,red,cube,real,a_top,a_side
+capture02,blue_cylinder_A,train_day1,train,images/b_top.jpg,images/b_side.jpg,blue,cylinder,real,b_top,b_side
+capture03,red_cube_B,val_day2,val,images/c_top.jpg,images/c_side.jpg,red,cube,real,c_top,c_side
+capture04,blue_cylinder_B,val_day2,val,images/d_top.jpg,images/d_side.jpg,blue,cylinder,real,d_top,d_side
+capture05,red_cube_C,test_day3,test,images/e_top.jpg,images/e_side.jpg,red,cube,real,e_top,e_side

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "real model prediction through Tk callbacks",
+    "record button disabled while pending",
+    "duplicate re-run does not increase denominator",
+    "explicit truth correction preserves denominator"
+  ],
+  "execution": "programmatic Tk callback integration with hidden window and existing same-video example, not human visual inspection or independent accuracy",
+  "manual_session_scope": "unique byte-content image pairs, not physical-instance independence",
+  "manual_session_tests": 10,
+  "model_specific_audit": true
+}

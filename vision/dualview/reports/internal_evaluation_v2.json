@@ -1,0 +1,165 @@
+{
+  "label": "single_target_labelled_pair_evaluation_v2",
+  "scope": "internal_temporal",
+  "scope_note": "Pairing/physical identity and independent capture are NOT automatically verified; no multi-object detection metric is implied",
+  "success_definition": "one row = one true target; accepted AND correct color AND correct shape; missing/review/errors remain in denominator",
+  "total": 377,
+  "correct": 377,
+  "success_rate": 1.0,
+  "accepted": 377,
+  "accepted_precision": 1.0,
+  "acceptance_coverage": 1.0,
+  "review": 0,
+  "errors": 0,
+  "review_or_error_rate": 0.0,
+  "known_tasks": 377,
+  "known_correct": 377,
+  "known_success_rate": 1.0,
+  "unknown_tasks": 0,
+  "unknown_false_accepts": 0,
+  "unknown_false_accept_rate": null,
+  "unknown_success_note": "Unknown rejection is reported separately; it is not a successful color+shape classification",
+  "per_class": {
+    "blue_cone": {
+      "total": 27,
+      "correct": 27,
+      "accepted": 27,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "blue_cube": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "blue_cylinder": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "blue_prism": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "red_cone": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "red_cube": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "red_cylinder": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    },
+    "red_prism": {
+      "total": 50,
+      "correct": 50,
+      "accepted": 50,
+      "review": 0,
+      "input_errors": 0,
+      "color_errors": 0,
+      "shape_errors": 0,
+      "success_rate": 1.0,
+      "acceptance_coverage": 1.0,
+      "accepted_precision": 1.0
+    }
+  },
+  "confusion": {
+    "blue_cone": {
+      "blue_cone": 27
+    },
+    "blue_cube": {
+      "blue_cube": 50
+    },
+    "blue_cylinder": {
+      "blue_cylinder": 50
+    },
+    "blue_prism": {
+      "blue_prism": 50
+    },
+    "red_cone": {
+      "red_cone": 50
+    },
+    "red_cube": {
+      "red_cube": 50
+    },
+    "red_cylinder": {
+      "red_cylinder": 50
+    },
+    "red_prism": {
+      "red_prism": 50
+    }
+  },
+  "failure_reasons": {},
+  "uncertainty": "No confidence interval: independence of physical objects/capture sessions is not established",
+  "groups": {
+    "physical_object_id": 0,
+    "session_id": 0
+  },
+  "input_manifest_sha256": "0bf32193fb80bf0cf2ea0497140a02723ba0c3bd63a64aa0d1975cead9b44616",
+  "model_sha256": "93915e90123e791027ac3b5b29140eb5c364900e217de7bce0793e5d4e157e4e",
+  "timing": {
+    "device": "cuda",
+    "load_ms": 170.117,
+    "warmup_attempts": 3,
+    "warmup_errors": [],
+    "first_warmup_prediction_ms": 1843.828,
+    "evaluated_mean_ms": 31.691,
+    "evaluated_p50_ms": 30.764,
+    "evaluated_p95_ms": 41.724,
+    "note": "Includes image I/O, preprocessing and inference; GPU synchronized. Model load and warmup excluded from evaluated distribution; no camera/robot time."
+  }
+}

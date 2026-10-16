@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "archive_sha256": "2725c7d8179939a6a333a532910724d5626db7f476acb3c77c28854bd06ee6f0",
+  "files_verified": "PASS: 28 packaged files match recorded SHA256",
+  "example_pairs": 8,
+  "correct": 8,
+  "device": "cpu",
+  "archive_tamper_detected": true,
+  "dependencies": {
+    "numpy": "1.26.4",
+    "torch": "1.13.1+cu117",
+    "torchvision": "0.14.1+cu117",
+    "opencv": "4.13.0",
+    "module_from_extracted_directory": true
+  },
+  "environment_note": "Extracted outside workspace. Uses installed Python/PyTorch/OpenCV/Pillow and PYTHONPATH for compatible NumPy 1.26.4; archive is not an embedded interpreter or full dependency bundle.",
+  "scope": "eight same-video examples only; no independent test or GUI interaction claim"
+}
