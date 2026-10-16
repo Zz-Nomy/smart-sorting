@@ -1,6 +1,6 @@
 # 训练模块
 
-正式采集入口：`python training/train_dualview.py --pairs CAPTURE_PAIRS.csv --output runs/paired_run`。字段模板见 `capture_pairs.example.csv`。形状配置用 `--shapes shapes.example.json`；默认四种形状。
+正式采集入口：`python training/train_dualview.py --pairs CAPTURE_PAIRS.csv --output runs/paired_run`。字段模板见 `capture_pairs.example.csv`。从仓库根目录使用形状配置参数 `--shapes training/shapes.example.json`；该文件只示例两种形状，省略参数则默认四种形状。
 
 旧素材相关检查必须显式选择：`python training/train_dualview.py --data DATASET --legacy-temporal --output runs/legacy_check`。该结果不是独立测试。正式训练清单的物理实物、批次、原图父 ID、路径不能跨分区，缺图与标签冲突会报错；训练不读取封存 test 图像。
 
