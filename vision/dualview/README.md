@@ -60,3 +60,9 @@ DATASET 在本机是 `C:/27工创/output/视觉识别素材库_v1`；CACHE_DIR �
 后续优先补拍成对真实图，变化实物、位置、光照、视距及角度；保留物料 ID、批次、目标框和跨视图对应关系。合成素材可补充训练，独立实拍数据负责验证稳定性。
 
 模型来源：[PyTorch MobileNetV3-small](https://docs.pytorch.org/vision/stable/models/generated/torchvision.models.mobilenet_v3_small.html)。
+
+## 本地交付包验证
+
+`training/package_dualview.py` 可将当前源码、已有可信权重与成对样例打成本地 ZIP，保留摘要校验和运行说明。它不把原图或模型加入 Git，不含 Python 解释器或全套依赖。已有包不会覆盖，须指定新文件名。
+
+已从工作区以外临时目录解压，在现有兼容环境中 CPU 运行八对旧视频样例并检查文件 SHA256，八对均正确，改动文件能被校验器检测。见 `reports/package_validation.json`；测试使用已安装 Python/PyTorch/OpenCV 等及隔离 NumPy 1.26.4，不代表在全新机器上验证过一键安装，也不是独立样件评估或 GUI 交互验收。
